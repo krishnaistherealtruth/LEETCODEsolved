@@ -1,0 +1,45 @@
+class Solution {
+    public static void solve(int ind,int[] nums,List<Integer> curr,List<List<Integer>> result,int x){
+        if(x==0){
+                result.add(new ArrayList<>(curr));
+                return;
+            }
+        if(x<0 || ind==nums.length){
+            return;
+        }
+
+        for(int i=ind;i<nums.length;i++){
+            if(i>ind && nums[i]==nums[i-1]) continue;
+            if(nums[i]>x) break;
+
+            curr.add(nums[i]);
+            solve(i+1,nums,curr,result,x-nums[i]);
+            curr.remove(curr.size()-1);
+        }
+    }
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans=new ArrayList<>();
+        List<Integer> curr=new ArrayList<>();
+        int min=Integer.MAX_VALUE;
+        for(int i=0;i<candidates.length;i++){
+            if(candidates[i]<min) min=candidates[i];
+        }
+        int len=0;
+        if(min<target){
+            len=target/min;
+            len++;
+        }
+        else{
+            return ans;
+        }
+        int[] nums=new int[(len*candidates.length)];
+        int p=0;
+        for(int i=0;i<len*candidates.length;i++){
+            nums[i]=candidates[p];
+            p=(p+1)%candidates.length;
+        }
+        Arrays.sort(nums);
+        solve(0,nums,curr,ans,target);
+        return ans;
+    }
+}
