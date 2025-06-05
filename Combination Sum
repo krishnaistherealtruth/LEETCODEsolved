@@ -1,0 +1,27 @@
+class Solution {
+    public static void solve(int ind,int[] nums,List<Integer> curr,List<List<Integer>> result,int x){
+        if(x==0){
+                result.add(new ArrayList<>(curr));
+                return;
+            }
+        if(x<0 || ind==nums.length){
+            return;
+        }
+
+        for(int i=ind;i<nums.length;i++){
+            if(i>ind && nums[i]==nums[i-1]) continue;
+            if(nums[i]>x) break;
+
+            curr.add(nums[i]);
+            solve(i+1,nums,curr,result,x-nums[i]);
+            curr.remove(curr.size()-1);
+        }
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> ans=new ArrayList<>();
+        List<Integer> curr=new ArrayList<>();
+        Arrays.sort(candidates);
+        solve(0,candidates,curr,ans,target);
+        return ans;
+    }
+}
