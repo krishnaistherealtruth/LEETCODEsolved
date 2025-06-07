@@ -1,0 +1,40 @@
+class Solution {
+    public static void solve(int[] count,int[] nums,List<Integer> curr,List<Integer> result,boolean[] freq,int k){
+        if(curr.size()==nums.length){
+            count[0]++;
+            if(count[0]==k){
+                result.addAll(new ArrayList<>(curr));
+            }
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(!freq[i]){
+                freq[i]=true;
+                curr.add(nums[i]);
+                solve(count,nums,curr,result,freq,k);
+                curr.remove(curr.size()-1);
+                freq[i]=false;
+                if (!result.isEmpty()) return;
+            }
+        }
+    }
+    public String getPermutation(int n, int k) {
+        int[] nums=new int[n];
+        for(int i=0;i<n;i++){
+            nums[i]=i+1;
+        }
+        List<Integer> result=new ArrayList<>();
+        List<Integer> curr=new ArrayList<>();
+        boolean[] freq=new boolean[n];
+        Arrays.fill(freq,false);
+        int[] count=new int[1];
+        solve(count,nums,curr,result,freq,k);
+        String s="";
+        System.out.print(result);
+        for(int num:result){
+            String str=Integer.toString(num);
+            s=s+str;
+        }
+        return s;
+    }
+}
