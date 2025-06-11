@@ -1,0 +1,41 @@
+class Solution {
+    public static int diff(String sub){
+        char[] ch=sub.toCharArray();
+        int[] nums=new int[ch.length];
+        int p=0;
+        for(char c:ch){
+            nums[p++]=c-'0';
+        }
+        int[] freq=new int[5];
+        Arrays.fill(freq,0);
+        for(int i=0;i<nums.length;i++){
+            freq[nums[i]]++;
+        }
+        int fa=0,fb=0;
+        int max=Integer.MIN_VALUE;
+        for (int i = 0; i < 5; i++) {
+            if(freq[i]%2==0){
+                fb=freq[i];
+            }
+            else{
+                fa=freq[i];
+            }
+            
+            if(fa>0 && fb>0){
+                max=Math.max(max,(fa-fb));
+            }
+    
+}
+        return max;
+    }
+    public int maxDifference(String s, int k) {
+        int max=Integer.MIN_VALUE;
+            for (int i = 0; i <= s.length() - k; i++) {
+                for (int len = k; i + len <= s.length(); len++) {
+                    String sub = s.substring(i, i + len);
+                    max = Math.max(max, diff(sub));
+                    }
+                }
+        return max;
+    }
+}
