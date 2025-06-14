@@ -1,0 +1,34 @@
+class Solution {
+    // Function to find the maximum number of meetings that can
+    // be performed in a meeting room.
+    public int maxMeetings(int start[], int end[]) {
+        // add your code here
+        int n=start.length;
+        int[][] duo=new int[n][2];
+        for(int i=0;i<n;i++){
+            duo[i][0]=start[i];
+            duo[i][1]=end[i];
+        }
+        
+         Arrays.sort(duo, Comparator.comparingInt(a -> a[1]));
+    
+        int count=0;
+        int[][] room=new int[1][2];
+        room[0][0]=duo[0][0];
+        room[0][1]=duo[0][1];
+        count++;
+        for(int i=1;i<n;i++){
+            if(duo[i][0]<=room[0][1]){
+                continue;
+            }
+            else{
+                room[0][0]=duo[i][0];
+                room[0][1]=duo[i][1];
+                count++;
+            }
+        }
+        
+        return count;
+        
+    }
+}
