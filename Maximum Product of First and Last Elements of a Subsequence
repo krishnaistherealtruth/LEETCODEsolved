@@ -1,0 +1,41 @@
+class Solution {
+    public static void comb(int ind,int[] nums,int m,List<Integer> curr,long[] max){
+        if(curr.size()==m){
+            long p=1L* curr.get(0)*curr.get(curr.size()-1);
+            max[0]=Math.max(max[0],p);
+            return;
+        }
+        if(ind==nums.length) return;
+
+        comb(ind+1,nums,m,curr,max);
+
+        curr.add(nums[ind]);
+        comb(ind+1,nums,m,curr,max);
+        curr.remove(curr.size()-1);
+        
+    }
+    public long maximumProduct(int[] nums, int m) {
+        List<Integer> curr=new ArrayList<>();
+        long[] max=new long[1];
+        max[0]=Long.MIN_VALUE;
+        comb(0,nums,m,curr,max);
+        return max[0];
+    }
+}©leetcode
+
+#2
+
+
+class Solution {
+    public long maximumProduct(int[] nums, int m) {
+        long max=Long.MIN_VALUE;
+        int n=nums.length;
+        for(int i=0;i<n-m+1;i++){
+            for(int j=i+m-1;j<n;j++){
+                long prod=1L*nums[i]*nums[j];
+                max=Math.max(max,prod);
+            }
+        }
+        return max;
+    }
+}©leetcode
