@@ -1,0 +1,24 @@
+#using array
+
+/*Complete the function below*/
+class GfG {
+    public Stack<Integer> sort(Stack<Integer> s) {
+        // add code here.
+        Stack<Integer> ans=new Stack<>();
+        int n=s.size();
+        
+        int[] temp=new int[s.size()];
+        for(int i=0;i<n;i++){
+            temp[i]=s.pop();
+        }
+        Arrays.sort(temp);
+        for(int i=0;i<temp.length;i++){
+            ans.push(temp[i]);
+        }
+        return ans;
+    }
+}
+
+
+#using stack
+
