@@ -1,0 +1,63 @@
+// User function Template for Java
+
+class Solution {
+    // Function to count inversions in the array.
+    public static int sort(int[] arr,int low,int high){
+        if(low>=high) return 0;
+            int count=0;
+            int mid=low+(high-low)/2;
+            
+            count+=sort(arr,low,mid);
+            count+=sort(arr,mid+1,high);
+            count+=countpairs(arr,low,mid,high);
+            merge(arr,low,mid,high);
+            return count;
+        
+    }
+    public static int countpairs(int[] arr,int low,int mid,int high){
+         int count=0;
+         int i=low;
+        int j=mid+1;
+        while(i<=mid){
+            while(j<=high && arr[i]>arr[j]){
+                j++;
+            }
+            count+=(j-(mid+1));
+            i++;
+        }
+        return count;
+    }
+    public static void merge(int[] arr,int low,int mid,int high){
+        
+        int i=low;
+        int j=mid+1;
+        int k=0;
+        int[] temp=new int[high-low+1];
+        while(i<=mid && j<=high){
+            if(arr[i]<arr[j]){
+                temp[k]=arr[i];
+                i++;k++;
+            }
+            else{
+                temp[k]=arr[j];
+                j++;k++;
+            }
+        }
+        while(i<=mid){
+            temp[k]=arr[i];
+                i++;k++;
+        }
+        while(j<=high){
+             temp[k]=arr[j];
+                j++;k++;
+        }
+        k=0;
+        for(int p=low;p<=high;p++){
+            arr[p]=temp[k++];
+        }
+    }
+    static int inversionCount(int arr[]) {
+        // Your Code Here
+        return sort(arr,0,arr.length-1);
+    }
+}
