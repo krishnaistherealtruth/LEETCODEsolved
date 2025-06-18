@@ -22,3 +22,38 @@ class GfG {
 
 #using stack
 
+/*Complete the function below*/
+class GfG {
+    public Stack<Integer> sort(Stack<Integer> s) {
+        // add code here.
+        Stack<Integer> ans=new Stack<>();
+        Stack<Integer> temp=new Stack<>();
+        
+        while(!s.isEmpty()){
+            int val=s.pop();
+            if(!ans.isEmpty()){
+                if(val>ans.peek()){
+                    while(!ans.isEmpty() && ans.peek()<val){
+                        temp.push(ans.pop());
+                    }
+                    ans.push(val);
+                    while(!temp.isEmpty()){
+                        ans.push(temp.pop());
+                    }
+                }
+                else{
+                    ans.push(val);
+                }
+            }
+            else{
+                ans.push(val);
+            }
+        }
+        
+        while(!ans.isEmpty()){
+            s.push(ans.pop());
+        }
+        return s;
+    }
+}
+
