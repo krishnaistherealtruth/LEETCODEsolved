@@ -1,0 +1,59 @@
+#merge sort solution
+
+class Solution {
+    public static void sort(int[] nums,int low,int high,int[] ans){
+        if(low<high){
+            int mid=low+(high-low)/2;
+            sort(nums,low,mid,ans);
+            sort(nums,mid+1,high,ans);
+            mergesort(nums,low,mid,high,ans);
+        }
+    }
+    public static void mergesort(int[] nums,int low,int mid,int high,int[] ans){
+       int i=low;
+        int j=mid+1;
+         while (i <= mid) {
+            while (j <= high && (long) nums[i] > 2 * (long) nums[j]) {
+                j++;
+            }
+            
+            ans[0] += (j - (mid + 1));
+            i++;
+        }
+
+        i=low;
+        j=mid+1;
+        int k=0;
+        int[] temp=new int[high+1];
+        while(i<=mid && j<=high){
+            if(nums[i]<=nums[j]) {
+                temp[k]=nums[i];
+                i++;k++;
+            }
+            else{
+                temp[k]=nums[j];
+                j++;k++;
+            }
+        }
+        while(i<=mid){
+            temp[k]=nums[i];
+                i++;k++;
+        }
+        while(j<=high){
+            temp[k]=nums[j];
+                j++;k++;
+        }
+        k=0;
+        for(int p=low;p<=high;p++){
+            nums[p]=temp[k++];
+        }
+
+    }
+    public int reversePairs(int[] nums) {
+        int[] ans=new int[1];
+        ans[0]=0;
+        
+        sort(nums,0,nums.length-1,ans);
+        return ans[0];
+    }
+}
