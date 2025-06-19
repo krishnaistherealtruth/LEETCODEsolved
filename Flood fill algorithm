@@ -1,0 +1,39 @@
+class Solution {
+    public static void dfs(int[] coord,int newColor,int[][] image,boolean[][] vis){
+        int n=image.length;
+        int m=image[0].length;
+        
+        int p=coord[0];
+        int k=coord[1];
+        int color=image[p][k];
+        
+        vis[p][k]=true;
+        image[p][k]=newColor;
+        
+        if(p+1<n && !vis[p+1][k] && image[p+1][k]==color){
+            dfs(new int[]{p+1,k},newColor,image,vis);
+        }
+        if(p-1>=0 && !vis[p-1][k] && image[p-1][k]==color){
+            dfs(new int[]{p-1,k},newColor,image,vis);
+         }
+        if(k+1<m && !vis[p][k+1] && image[p][k+1]==color){
+            dfs(new int[]{p,k+1},newColor,image,vis);
+        }
+        if(k-1>=0 && !vis[p][k-1] && image[p][k-1]==color){
+            dfs(new int[]{p,k-1},newColor,image,vis);
+         }
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        // Code here
+        int n=image.length;
+        int m=image[0].length;
+        boolean[][] vis=new boolean[n][m];
+        for(boolean[] row:vis){
+            Arrays.fill(row,false);
+        }
+        
+        dfs(new int[]{sr,sc},newColor,image,vis);
+        
+        return image;
+    }
+}
