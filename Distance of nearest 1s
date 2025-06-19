@@ -1,0 +1,51 @@
+class Solution {
+    // Function to find distance of nearest 1 in the grid for each cell.
+    public int[][] nearest(int[][] grid) {
+        int n=grid.length;
+        int m=grid[0].length;
+        int[][] ans=new int[n][m];
+        // Code here 
+        boolean[][] vis=new boolean[n][m];
+        for(boolean[] row:vis){
+            Arrays.fill(row,false);
+        }
+        Queue<int[]> q=new LinkedList<>();
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1){
+                    vis[i][j]=true;
+                    q.offer(new int[]{i,j,0});
+                }
+            }
+        }
+                
+        while(!q.isEmpty()){
+            int node[]=q.poll();
+            int p=node[0];
+            int k=node[1];
+            int dist=node[2];
+            
+            ans[p][k]=dist;
+            
+            
+            if(p+1<n && !vis[p+1][k]){
+                vis[p+1][k]=true;
+                q.offer(new int[]{p+1,k,dist+1});
+            }
+            if(p-1>=0 && !vis[p-1][k]){
+                vis[p-1][k]=true;
+                q.offer(new int[]{p-1,k,dist+1});
+            }
+            if(k+1<m && !vis[p][k+1]){
+                vis[p][k+1]=true;
+                q.offer(new int[]{p,k+1,dist+1});
+            }
+            if(k-1>=0 && !vis[p][k-1]){
+                vis[p][k-1]=true;
+                q.offer(new int[]{p,k-1,dist+1});
+            }
+        }
+        return ans;
+    }
+}
