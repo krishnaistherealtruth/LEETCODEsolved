@@ -1,0 +1,30 @@
+class Solution {
+    public static void maxheapify(int root,int[] arr,int len){
+        int l=(root*2)+1;
+        int r=(root*2)+2;
+        int max=root;
+        
+        if(l<len && arr[l]>arr[max]) max=l;
+        if(r<len && arr[r]>arr[max]) max=r;
+        
+        if(max!=root){
+            int temp=arr[max];
+            arr[max]=arr[root];
+            arr[root]=temp;
+            maxheapify(max,arr,len);
+        }
+    }
+    public int findKthLargest(int[] nums, int k) {
+        if(nums.length==1) return nums[0];
+        int ans=0;
+        for(int i=(nums.length/2)-1;i>=0;i--){
+            maxheapify(i,nums,nums.length);
+        }
+        for(int p=0;p<k;p++){
+            ans=nums[0];
+            nums[0]=nums[(nums.length-p)-1];
+            maxheapify(0,nums,nums.length-(p+1));
+        }
+        return ans;
+    }
+}
