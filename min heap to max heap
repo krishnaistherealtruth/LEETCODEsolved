@@ -1,0 +1,27 @@
+// User function Template for Java
+
+class Solution {
+    static void maxheapify(int root,int[] arr,int n){
+        int left=(root*2)+1;
+        int right=(root*2)+2;
+        int max=root;
+        
+        if(left<n && arr[left]>arr[max]) max=left;
+        if(right<n && arr[right]>arr[max]) max=right;
+        
+        if(max!=root){
+            int temp=arr[max];
+            arr[max]=arr[root];
+            arr[root]=temp;
+            
+            maxheapify(max,arr,n);
+        }
+    }
+    static void convertMinToMaxHeap(int N, int arr[]) {
+        // code here
+        for(int i=(N/2)-1;i>=0;i--){
+            maxheapify(i,arr,N);
+        }
+        
+    }
+}
