@@ -1,0 +1,47 @@
+class Solution {
+    
+    static boolean dfs(int[] vis,ArrayList<ArrayList<Integer>> adj,int start,int prev){
+        if(prev==-1){
+            vis[start]=0;
+        }
+        else{
+            vis[start]=(prev==0)?1:0;
+        }
+        
+        for(Integer it:adj.get(start)){
+            if(vis[it]==-1){
+               if (!dfs(vis, adj, it, vis[start])) {
+                    return false;
+                }
+            }
+            else if(vis[it]==vis[start]){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isBipartite(int V, int[][] edges) {
+        // Code here
+        int n=edges.length;
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<V;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int i=0;i<n;i++){
+            adj.get(edges[i][0]).add(edges[i][1]);
+            adj.get(edges[i][1]).add(edges[i][0]);
+        }
+        
+        
+        int[] vis=new int[V];
+         Arrays.fill(vis,-1);
+         for(int i=0;i<V;i++){
+            if(vis[i]==-1){
+                if(!dfs(vis,adj,i,vis[i])){
+                    return false;
+                }
+            }
+         }
+        return true;
+    }
+}
