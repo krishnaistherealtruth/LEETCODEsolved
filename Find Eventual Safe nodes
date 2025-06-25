@@ -1,0 +1,47 @@
+// User function Template for Java
+
+class Solution {
+    static boolean dfs(int start,boolean[] vis,boolean[] pathvis,boolean[] safe,List<List<Integer>> adj){
+        vis[start]=true;
+        pathvis[start]=true;
+        safe[start]=false;
+        
+        for(Integer it:adj.get(start)){
+            if(!vis[it]){
+                if(dfs(it,vis,pathvis,safe,adj)==true){
+                    return true;
+                }
+            }
+            else if(pathvis[it]==true){
+                return true;
+            }
+        }
+        pathvis[start]=false;
+        safe[start]=true;
+        return false;
+    }
+
+    List<Integer> eventualSafeNodes(int V, List<List<Integer>> adj) {
+
+        // Your code here
+        List<Integer> ans=new ArrayList<>();
+            boolean[] vis=new boolean[V];
+            boolean[] pathvis=new boolean[V];
+            boolean[] safe=new boolean[V];
+        
+            Arrays.fill(vis,false);
+            Arrays.fill(pathvis,false);
+            Arrays.fill(safe,false);
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                dfs(i,vis,pathvis,safe,adj);
+                }
+            }
+        for(int i=0;i<V;i++){
+            if(safe[i]==true){
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+}
