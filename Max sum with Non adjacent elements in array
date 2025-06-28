@@ -1,3 +1,5 @@
+#memoization
+
 // User function Template for Java
 
 class Solution {
@@ -23,7 +25,7 @@ class Solution {
 }
 
 
-
+#tabular
 
 
 // User function Template for Java
@@ -51,5 +53,26 @@ class Solution {
             dp[i]=Math.max(take,nottake);
         }
         return dp[arr.length-1];
+    }
+}
+
+
+#space optimized
+
+// User function Template for Java
+
+class Solution {
+    int findMaxSum(int arr[]) {
+        // code here
+       int prev2=0;
+       int prev1=arr[0];
+        for(int i=1;i<arr.length;i++){
+            int curr=arr[i];
+            int take=curr+prev2;
+            int nottake=prev1;
+            prev2=prev1;
+            prev1=Math.max(take,nottake);
+        }
+        return prev1;
     }
 }
