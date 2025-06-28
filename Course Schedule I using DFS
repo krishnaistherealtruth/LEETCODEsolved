@@ -1,0 +1,42 @@
+class Solution {
+    static boolean dfs(int ind,List<List<Integer>> adj,boolean[] vis,boolean[] pathvis){
+        vis[ind]=true;
+        pathvis[ind]=true;
+
+        for(Integer it:adj.get(ind)){
+           if(!vis[it]){
+            if(dfs(it,adj,vis,pathvis)) return true;
+           }
+           else if(pathvis[it]==true){
+            return true;
+           }
+        }
+        pathvis[ind]=false;
+        return false;
+    }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adj=new ArrayList<>();
+        boolean[] vis=new boolean[numCourses];
+        boolean[] pathvis=new boolean[numCourses];
+        Arrays.fill(vis,false);
+        Arrays.fill(pathvis,false);
+
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<>());
+        }
+
+        for(int i=0;i<prerequisites.length;i++){
+            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
+        }
+        
+        for(int i=0;i<numCourses;i++){
+            if(!vis[i]){
+                if(dfs(i,adj,vis,pathvis)==true){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
