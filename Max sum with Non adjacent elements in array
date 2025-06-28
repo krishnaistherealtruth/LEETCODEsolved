@@ -21,3 +21,35 @@ class Solution {
         return solve(arr,arr.length-1);
     }
 }
+
+
+
+
+
+// User function Template for Java
+
+class Solution {
+    static int[] dp;
+    int findMaxSum(int arr[]) {
+        // code here
+        dp=new int[arr.length];
+        Arrays.fill(dp,-1);
+        
+        if(arr.length>1){
+            dp[0]=arr[0];
+        }
+        
+        for(int i=1;i<arr.length;i++){
+            int take=0;
+            if(i>1){
+                take=arr[i]+dp[i-2];
+            }
+            else{
+                take=arr[i]+0;
+            }
+            int nottake=dp[i-1];
+            dp[i]=Math.max(take,nottake);
+        }
+        return dp[arr.length-1];
+    }
+}
