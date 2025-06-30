@@ -1,0 +1,71 @@
+/*
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
+    }
+}
+*/
+class Tuple{
+    Node node;
+    int a;
+    int b;
+
+    public Tuple(Node newnode,int ah,int bh){
+        node=newnode;
+        a=ah;
+        b=bh;
+    }
+}
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root) {
+        // code here
+        Queue<Tuple> q=new LinkedList<>();
+        
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> map=new TreeMap<>();
+        
+        q.offer(new Tuple(root,0,0));
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                Tuple tuple=q.poll();
+                Node node=tuple.node;
+                int col=tuple.a;
+                int lev=tuple.b;
+    
+                if(!map.containsKey(col)){
+                    map.put(col,new TreeMap<>());
+                    
+                    if(!map.get(col).containsKey(lev)){
+                    map.get(col).put(lev,new PriorityQueue<>());
+                    }
+                    
+                    map.get(col).get(lev).offer(node.data);
+                }
+                 
+    
+                if(node.left!=null){
+                    q.offer(new Tuple(node.left,col-1,lev+1));
+                }
+                if(node.right!=null){
+                    q.offer(new Tuple(node.right,col+1,lev+1));
+                }
+            }
+        }
+        ArrayList<Integer> ans=new ArrayList<>();
+        for(TreeMap<Integer,PriorityQueue<Integer>> ind: map.values()){
+            for(PriorityQueue<Integer> pq:ind.values()){
+                while(!pq.isEmpty()){
+                    ans.add(pq.poll());
+                }
+            }
+        }   
+        return ans;
+    }
+}
