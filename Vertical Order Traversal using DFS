@@ -13,17 +13,6 @@
  *     }
  * }
  */
-/*public class Tuple{
-    TreeNode node;
-    int a;
-    int b;
-
-    public Tuple(TreeNode newnode,int ah,int bh){
-        node=newnode;
-        a=ah;
-        b=bh;
-    }
-}*/
 class Solution {
     public static void inorder(TreeNode node,int col,int lev,TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> map){
         if(node==null) return;
@@ -39,37 +28,11 @@ class Solution {
             inorder(node.right,col+1,lev+1,map);
     }
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        /*Queue<Tuple> q=new LinkedList<>();*/
         
         TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> map=new TreeMap<>();
         
         inorder(root,0,0,map);
-        /*q.offer(new Tuple(root,0,0));
-        while(!q.isEmpty()){
-            int size=q.size();
-            for(int i=0;i<size;i++){
-                Tuple tuple=q.poll();
-            TreeNode node=tuple.node;
-            int col=tuple.a;
-            int lev=tuple.b;
-
-            if(!map.containsKey(col)){
-                map.put(col,new TreeMap<>());
-            }
-            if(!map.get(col).containsKey(lev)){
-                map.get(col).put(lev,new PriorityQueue<>());
-            }
-            map.get(col).get(lev).offer(node.val);
-
-            if(node.left!=null){
-                q.offer(new Tuple(node.left,col-1,lev+1));
-            }
-            if(node.right!=null){
-                q.offer(new Tuple(node.right,col+1,lev+1));
-            }
-            }
-        }*/
-
+       
         List<List<Integer>> ans=new ArrayList<>();
         for(TreeMap<Integer,PriorityQueue<Integer>> ind: map.values()){
             ans.add(new ArrayList<>());
