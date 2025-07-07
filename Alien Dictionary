@@ -1,0 +1,70 @@
+class Solution {
+    static boolean dfs(int ind,boolean[] vis, boolean[] pathvis,HashMap<Integer,List<Integer>> hs,Stack<Character> st){
+        vis[ind]=true;
+        pathvis[ind]=true;
+        
+        for(Integer it:hs.getOrDefault(ind, new ArrayList<>())){
+            if(!vis[it]){
+                if(dfs(it,vis,pathvis,hs,st)) return true;
+            }
+            else if(pathvis[it]==true) return true;
+        }
+        pathvis[ind]=false;
+        st.push((char)(ind+97));
+        return false;
+    }
+    public String findOrder(String[] words) {
+        // code here
+        HashMap<Integer,List<Integer>> hs=new HashMap<>();
+        
+         boolean[] present = new boolean[26];  // Tracks characters present in input
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                present[c - 'a'] = true;
+            }
+        }
+
+        for(int i=0;i<words.length-1;i++){
+            boolean found = false;
+            for(int j=0;j<Math.min(words[i].length(),words[i+1].length());j++){
+                if(words[i].charAt(j)!=words[i+1].charAt(j)){
+                    int k=words[i].charAt(j)-'a';
+                    if(hs.containsKey(k)){
+                        if(!hs.get(k).contains(words[i+1].charAt(j)-'a'))
+                            hs.get(k).add(words[i+1].charAt(j)-'a');
+                    }
+                    else{
+                        hs.put(k,new ArrayList<>());
+                        hs.get(k).add(words[i+1].charAt(j)-'a');
+                    }
+                     found = true;
+                    break;
+                }
+            }
+            if (!found && words[i].length() > words[i+1].length()) return "";
+        }
+        for(int i=0;i<present.length;i++){
+            if(!hs.containsKey(i)){
+                hs.put(i,new ArrayList<>());
+            }
+        }
+        if(hs.isEmpty()) return "";
+        
+        boolean[] vis=new boolean[26];
+        Arrays.fill(vis,false);
+        boolean[] pathvis=new boolean[26];
+        Arrays.fill(pathvis,false);
+        Stack<Character> st=new Stack<>();
+        
+        for(Integer key:hs.keySet()){
+            if(present[key] && !vis[key]){
+                if(dfs(key,vis,pathvis,hs,st)==true) return "";
+            }
+        }
+        String str="";
+        while(!st.isEmpty()){
+            str=str+st.pop();
+        }
+        return str;
+    }
+}
