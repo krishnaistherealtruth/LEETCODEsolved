@@ -1,0 +1,41 @@
+class Pair{
+    String node;
+    int dt;
+    Pair(String _node,int _dt){
+        this.node=_node;
+        this.dt=_dt;
+    }
+}
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if(!wordList.contains(endWord)) return 0;
+
+        Queue<Pair> q=new LinkedList<>();
+        Set<String> st=new HashSet<>();
+        for(String s:wordList){
+            st.add(s);
+        }
+        st.remove(beginWord);
+        q.offer(new Pair(beginWord,1));
+
+        while(!q.isEmpty()){
+            String node=q.peek().node;
+            int lev=q.peek().dt;
+            q.remove();
+
+            if(node.equals(endWord)) return lev;
+            for(int i=0;i<node.length();i++){
+                for(char c='a';c<='z';c++){
+                    char[] ch=node.toCharArray();
+                    ch[i]=c;
+                    String str=new String(ch);
+                    if(st.contains(str)){
+                        q.offer(new Pair(str,lev+1));
+                        st.remove(str);
+                    }
+               }
+            }
+        }
+        return 0;
+    }
+}
