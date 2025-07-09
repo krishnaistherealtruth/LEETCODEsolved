@@ -56,3 +56,74 @@ class Solution {
         return ans;
     }
 }
+
+
+
+#highly optimized
+
+class Solution {
+    static String b;
+    static int sz;
+    static Map<String,Integer> map;
+    static List<List<String>> ans;
+    public static void dfs(String hook,List<String> seq){
+        if(hook.equals(b)){
+            List<String> hui=new ArrayList<>(seq);
+            Collections.reverse(hui);
+            ans.add(hui);
+        }
+
+        for(int i=0;i<sz;i++){
+            for(char c='a';c<='z';c++){
+                char[] chi=hook.toCharArray();
+                chi[i]=c;
+                String temp=new String(chi);
+                if(map.containsKey(temp)){
+                    if(map.get(temp)==map.get(hook)-1){
+                        seq.add(temp);
+                        dfs(temp,seq);
+                        seq.remove(seq.size()-1);
+                    }
+                }
+            }
+        }
+    }
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        Queue<String> q=new LinkedList<>();
+        q.offer(beginWord);
+        Set<String> st=new HashSet<>();
+        for(String s:wordList){
+            st.add(s);
+        }
+        st.remove(beginWord);
+        b=beginWord;
+        map=new HashMap<>();
+        map.put(beginWord,1);
+
+        sz=beginWord.length();
+        while(!q.isEmpty()){
+            String temp=q.poll();
+            int lev=map.get(temp);
+            if(temp.equals(endWord)) break;
+            for(int i=0;i<sz;i++){
+                for(char c='a';c<='z';c++){
+                    char[] ch=temp.toCharArray();
+                    ch[i]=c;
+                    String l=new String(ch);
+                    if(st.contains(l)){
+                        q.offer(l);
+                        st.remove(l);
+                        map.put(l,lev+1);
+                    }
+                }
+            }
+        }
+        ans=new ArrayList<>();
+        if(map.containsKey(endWord)){
+            List<String> seq=new ArrayList<>();
+            seq.add(endWord);
+            dfs(endWord,seq);
+        }
+        return ans;
+    }
+}
