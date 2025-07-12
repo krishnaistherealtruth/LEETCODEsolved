@@ -1,0 +1,28 @@
+class Solution {
+    public static int total(int ind,int[] coins,int x,int[][] dp){
+        if(ind==0){
+            if(x%coins[ind]==0) return x/coins[ind];
+            else return Integer.MAX_VALUE;
+        }
+        if(dp[ind][x]!=-1) return dp[ind][x];
+
+        int nottake=total(ind-1,coins,x,dp);
+        int take=Integer.MAX_VALUE;
+        if(coins[ind]<=x){
+            int sub = total(ind, coins, x - coins[ind], dp);
+            if (sub != Integer.MAX_VALUE) {
+                take = 1 + sub;
+            }
+        }
+        return dp[ind][x]=Math.min(take,nottake);
+    }
+    public int coinChange(int[] coins, int amount) {
+        int[][] dp=new int[coins.length][amount+1];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+        int max=total(coins.length-1,coins,amount,dp);
+        
+        return (max==Integer.MAX_VALUE)?-1:max;
+    }
+}
