@@ -1,0 +1,29 @@
+
+class Solution {
+    public static int count(int ind,int[] arr,int sum1,int maxsum,int d,int[][] dp){
+        if(ind==arr.length){
+            int sum2=maxsum-sum1;
+            if(sum1>=sum2 && sum1-sum2==d) return 1;
+            else return 0;
+        }
+        if(dp[ind][sum1]!=-1) return dp[ind][sum1];
+        
+        int nottake=count(ind+1,arr,sum1,maxsum,d,dp);
+        
+        int take=count(ind+1,arr,sum1+arr[ind],maxsum,d,dp);
+        
+        return dp[ind][sum1]=take+nottake;
+    }
+    int countPartitions(int[] arr, int d) {
+        int maxsum=0;
+        for(int i:arr){
+            maxsum+=i;
+        }
+        int[][] dp=new int[arr.length][maxsum+1];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+        return count(0,arr,0,maxsum,d,dp);
+        
+    }
+}
