@@ -22,3 +22,31 @@ class Solution {
         return solve(nums.length-1,nums,target);
     }
 }
+
+
+class Solution {
+    public static int solve(int ind,int[] nums,int sum1,int maxsum,int x,int[][] dp){
+        if(ind==nums.length){
+            int sum2=maxsum-sum1;
+            if(sum1-sum2 == x) return 1;
+            else return 0;
+        }
+        if(dp[ind][sum1]!=-1) return dp[ind][sum1];
+       int nottake=solve(ind+1,nums,sum1,maxsum,x,dp);
+       int take=solve(ind+1,nums,sum1+nums[ind],maxsum,x,dp);
+       
+
+        return dp[ind][sum1]=take + nottake;
+    }
+    public int findTargetSumWays(int[] nums, int target) {
+        int max=0;
+        for(int a:nums){
+            max+=a;
+        }
+        int[][] dp=new int[nums.length][max+1];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+        return solve(0,nums,0,max,target,dp);
+    }
+}
