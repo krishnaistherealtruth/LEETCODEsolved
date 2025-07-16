@@ -1,0 +1,25 @@
+class Solution {
+    public static int max(int ind,int[] price,int L,int[][] dp){
+        if(ind==0){
+            if(L>=1) return price[ind]*(L);
+            else return 0;
+        }
+         if(dp[ind][L]!=-1) return dp[ind][L];
+        
+        int nottake=max(ind-1,price,L,dp);
+        int take=0;
+        if(L>=(ind+1)){
+            take=price[ind]+max(ind,price,L-(ind+1),dp);
+        }
+        return dp[ind][L]=Math.max(take,nottake);
+    }
+    public int cutRod(int[] price) {
+        // code here
+        int n=price.length;
+         int[][] dp=new int[n][n+1];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+        return max(n-1,price,n,dp);
+    }
+}
