@@ -1,0 +1,24 @@
+class Solution {
+    static int mod=1_000_000_007;
+    public static int ways(int ind,int n,int x,int[][] dp){
+        if(n==0){
+            return 1;
+        }
+        if(ind==0 || n<0){
+            return 0;
+        }
+        if(dp[ind][n]!=-1) return dp[ind][n];
+
+        int nottake=ways(ind-1,n,x,dp);
+        int take=ways(ind-1,n-(int)Math.pow(ind,x),x,dp);
+
+        return dp[ind][n]=(nottake+take)%mod;
+    }
+    public int numberOfWays(int n, int x) {
+        int[][] dp=new int[n+1][n+1];
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+        return ways(n,n,x,dp);
+    }
+}
