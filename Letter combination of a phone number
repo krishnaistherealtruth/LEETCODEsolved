@@ -1,0 +1,41 @@
+class Solution {
+    public static void result(int ind,int[] num,Map<Integer,ArrayList<Character>> map,StringBuilder sb,List<String> ans){
+        if(ind==num.length){
+            if(!ans.contains(sb)){
+                ans.add(sb.toString());
+            }
+            return;
+        }
+        ArrayList<Character> list=map.get(num[ind]);
+        if(list==null) return;
+        for(int i=0;i<list.size();i++){
+            sb.append(map.get(num[ind]).get(i));
+            result(ind+1,num,map,sb,ans);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
+    public List<String> letterCombinations(String digits) {
+        Map<Integer,ArrayList<Character>> map=new HashMap<>();
+        
+        map.put(2,new ArrayList<>(Arrays.asList('a','b','c')));
+        map.put(3,new ArrayList<>(Arrays.asList('d','e','f')));
+        map.put(4,new ArrayList<>(Arrays.asList('g','h','i')));
+        map.put(5,new ArrayList<>(Arrays.asList('j','k','l')));
+        map.put(6,new ArrayList<>(Arrays.asList('m','n','o')));
+        map.put(7,new ArrayList<>(Arrays.asList('p','q','r','s')));
+        map.put(8,new ArrayList<>(Arrays.asList('t','u','v')));
+        map.put(9,new ArrayList<>(Arrays.asList('w','x','y','z')));
+
+        List<String> ans=new ArrayList<>();
+        if(digits.length()==0) return ans;
+        int[] nums=new int[digits.length()];
+        for(int i=0;i<digits.length();i++){
+            nums[i]=digits.charAt(i)-'0';
+        }
+        StringBuilder sb= new StringBuilder();
+
+        result(0,nums,map,sb,ans);
+
+        return ans;
+    }
+}
