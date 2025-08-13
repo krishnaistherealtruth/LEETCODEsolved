@@ -1,0 +1,36 @@
+class Solution {
+    public static boolean sum(int mid,int[] piles,int h){
+        long hrs=0;
+        for(int i=0;i<piles.length;i++){
+            hrs+=piles[i]/mid;
+            if(piles[i]%mid!=0){
+                hrs+=1;
+            }
+        }
+        return (hrs<=(long)h);
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int high=0;
+        for(int i=0;i<piles.length;i++){
+            if(piles[i]>high){
+                high=piles[i];
+            }
+        }
+        int low=1;
+        int ans=high;
+
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            
+            
+            if(sum(mid,piles,h)){
+                ans= Math.min(mid,ans);
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
+            }
+        }
+        return ans;
+    }
+}
