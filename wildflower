@@ -1,0 +1,36 @@
+class Solution {
+    Boolean[][] dp;
+    public boolean memo(int i,int j,String s,String p){
+        if(i==0 && j==0){
+            return true;
+        }
+        if(j==0){
+            return false;
+        }
+        if(i==0){
+            for(int ind=1;ind<=j;ind++){
+                if(p.charAt(ind-1)!='*') return false;
+            }
+            return true;
+        }
+
+        if(dp[i][j] != null) return dp[i][j];
+
+        char sc=s.charAt(i-1);
+        char pc=p.charAt(j-1);
+        boolean flag;
+        if(sc==pc || pc=='?'){
+            flag=memo(i-1,j-1,s,p);
+        }
+        else if(pc=='*'){
+            flag=memo(i,j-1,s,p) || memo(i-1,j,s,p);
+        }
+        else flag=false;
+
+        return dp[i][j]=flag;
+    }
+    public boolean isMatch(String s, String p) {
+        dp=new Boolean[s.length()+1][p.length()+1];
+        return memo(s.length(),p.length(),s,p);
+    }
+}Wild
