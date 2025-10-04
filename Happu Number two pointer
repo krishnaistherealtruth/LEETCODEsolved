@@ -1,0 +1,30 @@
+class Solution {
+    public boolean isHappy(int n) {
+        int slow=n;
+        int fast=n;
+        while(fast!=1){
+            int k=slow;
+            slow=0;
+            while(k!=0){
+                int digit=k%10;
+                slow+=(digit*digit);
+                k/=10;
+            }
+            for(int i=0;i<2;i++){
+                int p=fast;
+                fast=0;
+                while(p!=0){
+                    int dig=p%10;
+                    fast+=(dig*dig);
+                    p/=10;
+                }
+            }
+            if(slow==1) return true;
+
+            if(slow==fast && slow!=1){
+                return false;
+            }
+        }
+        return true;
+    }
+}
