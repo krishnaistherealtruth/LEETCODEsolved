@@ -1,0 +1,48 @@
+class Meet{
+    int end;
+    int room;
+    Meet(int _end,int _room){
+        this.end=_end;
+        this.room=_room;
+    }
+}
+class Solution {
+    public int mostBooked(int n, int[][] meetings) {
+        int[] room=new int[n];
+        Arrays.fill(room,0);
+        int t=0;
+        Arrays.sort(meetings,(a,b)->Integer.compare(a[0],b[0]));
+       
+        PriorityQueue<Integer> freeroom=new PriorityQueue<>();
+        for(int i=0;i<n;i++){
+            freeroom.add(i);
+        }
+        PriorityQueue<Meet> meet=new PriorityQueue<>(
+            (a,b)->a.end==b.end?a.room-b.room:a.end-b.end);
+
+        for(int i=0;i<meetings.length;i++){
+            while (!meet.isEmpty() && meet.peek().end <= meetings[i][0]) {
+                Meet m=meet.poll();
+                freeroom.add(m.room);
+            }
+
+            if(!freeroom.isEmpty()){
+                int room_no=freeroom.poll();
+                room[room_no]++;
+                meet.add(new Meet(meetings[i][1],room_no));
+            }
+            else{
+                Meet m=meet.poll();
+                room[m.room]++;
+                meet.add(new Meet(m.end+(meetings[i][1]-meetings[i][0]),m.room));
+            }
+        }
+        int max=0;
+        for(int i=0;i<n;i++){
+            if(room[i]>room[max]){
+                max=i;
+            }
+        }
+        return max;
+    }
+}
