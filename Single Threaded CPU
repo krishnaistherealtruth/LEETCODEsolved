@@ -1,0 +1,51 @@
+class Process{
+    int id;
+    int start;
+    int burst;
+
+    Process(int _id,int _s,int _b){
+        this.id=_id;
+        this.start=_s;
+        this.burst=_b;
+    }
+}
+class Solution {
+    public int[] getOrder(int[][] tasks) {
+        int[][] arr=new int[tasks.length][3];
+        for(int i=0;i<tasks.length;i++){
+            arr[i][0]=tasks[i][0];
+            arr[i][1]=tasks[i][1];
+            arr[i][2]=i;
+        }
+        Arrays.sort(arr,(a,b)->Integer.compare(a[0],b[0]));
+        System.out.println(Arrays.deepToString(arr));
+
+        PriorityQueue<Process> pq=new PriorityQueue<>(
+            (a,b)->a.burst==b.burst?a.id-b.id:a.burst-b.burst
+        );
+        int[] ans=new int[tasks.length];
+
+        int k=0;
+        int time=arr[0][0];
+        int i=0;
+        while(k<tasks.length){
+            while (i < tasks.length && arr[i][0] <= time) {
+                pq.add(new Process(arr[i][2], arr[i][0], arr[i][1]));
+                i++;
+            }
+            
+        
+            if(!pq.isEmpty()){
+                Process p=pq.poll();
+                time=time+p.burst;
+                ans[k++]=p.id;
+            }
+            else{
+                if (i < tasks.length)
+                    time = arr[i][0];
+            }
+        }
+        System.out.print(time);
+        return ans;
+    }
+}
