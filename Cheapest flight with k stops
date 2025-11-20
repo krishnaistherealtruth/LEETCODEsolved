@@ -1,0 +1,56 @@
+class Pair{
+    int price;
+    int node;
+    int stop;
+    Pair(int _price,int _node,int _stop){
+        price=_price;
+        node=_node;
+        stop=_stop;
+    }
+}
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<List<Pair>> adj=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int i=0;i<flights.length;i++){
+            adj.get(flights[i][0]).add(new Pair(flights[i][2],flights[i][1],0));
+        }
+
+        PriorityQueue<Pair> pq=new PriorityQueue<>((x,y)->{
+            if(x.stop!=y.stop){
+                return x.stop-y.stop;
+            }
+            return x.price-y.price;
+        });
+
+        int[] st=new int[n];
+        Arrays.fill(st,Integer.MAX_VALUE);
+
+        st[src]=0;
+        pq.offer(new Pair(0,src,0));
+        int ans=Integer.MAX_VALUE;
+        while(!pq.isEmpty()){
+            Pair pair=pq.poll();
+            int price=pair.price;
+            int node=pair.node;
+            int stop=pair.stop;
+
+            if(node==dst){
+                 ans=Math.min(price,ans);
+            }
+
+            if(stop>k) continue;
+
+
+            for(Pair it:adj.get(node)){
+                if(price+it.price<st[it.node]){
+                    st[it.node]=price+it.price;
+                    pq.add(new Pair(st[it.node],it.node,stop+1));
+                }
+            }
+        }   
+        return (ans==Integer.MAX_VALUE)?-1:ans;
+    }
+}
